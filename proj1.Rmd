@@ -1,0 +1,42 @@
+---
+title: "CourseraProj1"
+author: "AnnoD"
+date: "24 lipca 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Project 1
+
+This is a Project1 document.  
+First, we import dataset **"activity.csv"**
+```{r import_data, echo=TRUE}
+activity <- read.csv("activity.csv")
+```
+
+## Cleaning dataset
+
+We need to aggregate data set by date. In this step we creating *wyn* variable, apropriate naming columns and making a histogram. For the clear view we plot dataset after that. As we can see the histogram is adequate to the real data:
+  
+```{r test, echo=TRUE}
+wyn<-aggregate(activity$steps,by=list(activity$date),FUN=sum)
+names(wyn) <- c("data","steps")
+hist(wyn$step,xlab="steps",main = "Histogram of Steps quantity by day")
+plot(wyn,xlab="Data",ylab="Steps",type="h")
+abline(h=median(wyn$steps,na.rm = TRUE),col="blue")
+abline(h=mean(wyn$steps,na.rm = TRUE),col="red")
+```
+
+Now, we can calculate mean and median for this set. On previous plot are they represented as *red* line for mean and *blue* line for median.
+
+```{r mean and median}
+  
+  ext1<-mean(wyn$steps,na.rm = TRUE)
+  ext2<-median(wyn$steps,na.rm = TRUE)
+  ext3 <- sum(wyn$steps,na.rm = TRUE)
+```
+
+After that, we know that mean is `r ext1` and median is `r ext2` with all steps in numer `r ext3`.
