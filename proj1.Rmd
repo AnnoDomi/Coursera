@@ -34,9 +34,30 @@ Now, we can calculate mean and median for this set. On previous plot are they re
 
 ```{r mean and median}
   
-  ext1<-mean(wyn$steps,na.rm = TRUE)
+  ext1<-format(mean(wyn$steps,na.rm = TRUE),scientific = FALSE)
   ext2<-median(wyn$steps,na.rm = TRUE)
   ext3 <- sum(wyn$steps,na.rm = TRUE)
 ```
 
 After that, we know that mean is `r ext1` and median is `r ext2` with all steps in numer `r ext3`.
+
+======================================================================
+
+
+We can calculate the number of days with NA steps in dataset.
+```{r }
+  DaysWithNA <- sum(is.na(wyn$steps))
+  intervalCount <- 24*12
+  AllDaysMeasurment <- sum(wyn$data!="")
+```
+and this number is = `r DaysWithNA` from all `r AllDaysMeasurment` days.  
+The interval is 5 minutes, so all quantity of measured data in one day is in `r intervalCount` atomic parts.  
+We have to refill dataset with `r DaysWithNA` \* `r intervalCount` probes. It is suggested that *NA* will be replaced by median of all dataset value.
+
+```{r }
+  wynNEW <- wyn
+  names(wynNEW) <- c("data", "steps")
+  wynNEW$steps[is.na(wyn$steps)]<-ext2
+  hist(wynNEW$step)
+
+```
